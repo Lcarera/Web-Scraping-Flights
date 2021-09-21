@@ -1,11 +1,11 @@
+import os
+os.system("pip install requests")
+os.system("pip install bs4")
+os.system("pip install datetime")
 import requests as req
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
-import os
-# os.system("pip install requests")
-# os.system("pip install bs4")
-# os.system("pip install datetime")
 
 
 today = str(datetime.today().strftime('%Y-%m-%d'))
@@ -20,7 +20,8 @@ class Vuelo():
         self.photo = f"https://sjoairport.com/wp-content/themes/aijs-child/images/airlines/{airline.capitalize()}.png"
         self.code = code
         self.destiny = destiny
-        self.time = time + " " + today
+        self.time = time 
+        self.date = today
         self.gate = gate[6:].strip()
         self.estados = {
             "A tiempo": 0,
@@ -89,6 +90,7 @@ for vuelo in vuelos:
         'vuelo': vuelo.code,
         'destino': vuelo.destiny,
         'hora': vuelo.time,
+        'fecha': vuelo.date,
         'puerta': vuelo.gate,
         'estado': vuelo.estatus,
         'estado_code': vuelo.estautus_code,
@@ -96,5 +98,5 @@ for vuelo in vuelos:
     })
 
 
-with open("flights_data.json", "w") as file:
+with open("flights_data.txt", "w") as file:
     json.dump(jsonText, file)
