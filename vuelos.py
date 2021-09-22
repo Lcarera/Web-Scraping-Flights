@@ -6,6 +6,7 @@ import requests as req
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
+import time
 
 
 today = str(datetime.today().strftime('%Y-%m-%d'))
@@ -35,8 +36,7 @@ class Vuelo():
         self.estautus_code = self.estados.get(estatus)
 
 
-# Obteniendo HTML
-Web = req.get('https://sjoairport.com/flights-new/')
+
 
 
 vuelos = []
@@ -76,27 +76,29 @@ def find_tags_from_class(html):
         else:
             # Saltea los primeros 5 elementos son lso titulos de la tabla
             x += 1
+while True:
+    # Obteniendo HTML
+    Web = req.get('https://sjoairport.com/flights-new/')
+    find_tags_from_class(Web.text)
+
+    jsonText = {}
+    jsonText['vuelos'] = []
+    # Convierte todos los vuelos en formato json
+    for vuelo in vuelos:
+        jsonText['vuelos'].append({
+
+            'aerolinea': vuelo.airline,
+            'vuelo': vuelo.code,
+            'destino': vuelo.destiny,
+            'hora': vuelo.time,
+            'fecha': vuelo.date,
+            'puerta': vuelo.gate,
+            'estado': vuelo.estatus,
+            'estado_code': vuelo.estautus_code,
+            'foto': vuelo.photo,
+        })
 
 
-find_tags_from_class(Web.text)
-
-jsonText = {}
-jsonText['vuelos'] = []
-# Convierte todos los vuelos en formato json
-for vuelo in vuelos:
-    jsonText['vuelos'].append({
-
-        'aerolinea': vuelo.airline,
-        'vuelo': vuelo.code,
-        'destino': vuelo.destiny,
-        'hora': vuelo.time,
-        'fecha': vuelo.date,
-        'puerta': vuelo.gate,
-        'estado': vuelo.estatus,
-        'estado_code': vuelo.estautus_code,
-        'foto': vuelo.photo,
-    })
-
-
-with open("flights_data.txt", "w") as file:
-    json.dump(jsonText, file)
+    with open("flights_data.txt", "w") as file:
+        json.dump(jsonText, file)
+    sleep(900)
