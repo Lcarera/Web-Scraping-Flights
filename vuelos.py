@@ -27,9 +27,9 @@ class Vuelo():
             "A tiempo": 0,
             "Cancelado": 1,
             "Salió": 2,
-            "Llegó": 2,
-            "Confirmado": 3,
-            "Demorado": 4
+            "Llegó": 3,
+            "Confirmado": 4,
+            "Demorado": 5
         }
         self.estatus = estatus
         self.estautus_code = self.estados.get(estatus)
