@@ -2,6 +2,7 @@ import os
 os.system("pip install requests")
 os.system("pip install bs4")
 os.system("pip install datetime")
+os.system("pip install shutil")
 import requests as req
 from bs4 import BeautifulSoup
 import json
@@ -101,4 +102,5 @@ while True:
 
     with open("flights_data.txt", "w") as file:
         json.dump(jsonText, file)
+    shutil.move("flights_data.txt",)
     sleep(900)
