@@ -23,7 +23,7 @@ class Vuelo():
         self.photo = f"https://sjoairport.com/wp-content/themes/aijs-child/images/airlines/{airline.capitalize()}.png"
         self.code = code
         self.destiny = destiny
-        self.time = time 
+        self.time = time
         self.date = today
         self.gate = gate[6:].strip()
         self.estados = {
@@ -36,9 +36,6 @@ class Vuelo():
         }
         self.estatus = estatus
         self.estautus_code = self.estados.get(estatus)
-
-
-
 
 
 vuelos = []
@@ -63,6 +60,8 @@ def find_tags_from_class(html):
     for flight in flights:
         if x == 11:
             # Cuando llega a 11 significa que ya almaceno un vuelo entero
+            if len(vuelos) > len(estados):
+                vuelos.pop(-1)
             if len(vuelos) != 0:
                 estado = estados[len(vuelos)-1]
             else:
@@ -78,33 +77,30 @@ def find_tags_from_class(html):
         else:
             # Saltea los primeros 5 elementos son lso titulos de la tabla
             x += 1
-while True:
-    # Obteniendo HTML
-    Web = req.get('https://sjoairport.com/flights-new/')
-    find_tags_from_class(Web.text)
-
-    jsonText = {}
-    jsonText['vuelos'] = []
-    # Convierte todos los vuelos en formato json
-    for vuelo in vuelos:
-        jsonText['vuelos'].append({
-
-            'aerolinea': vuelo.airline,
-            'vuelo': vuelo.code,
-            'destino': vuelo.destiny,
-            'fecha y hora': (vuelo.date)(vuelo.time),
-            
-            'puerta': vuelo.gate,
-            'estado': vuelo.estatus,
-            'estado_code': vuelo.estautus_code,
-            'foto': vuelo.photo,
-        })
-        print(jsonText)
 
 
-    with open("flights_data.txt", "w") as file:
-        json.dump(jsonText, file)
-    #shutil.move("flights_data.txt",)
-    
-    #sleep(900)
-    
+# Obteniendo HTML
+Web = req.get('https://sjoairport.com/flights-new/')
+find_tags_from_class(Web.text)
+
+jsonText = {}
+jsonText['vuelos'] = []
+# Convierte todos los vuelos en formato json
+for vuelo in vuelos:
+    jsonText['vuelos'].append({
+
+        'aerolinea': vuelo.airline,
+        'vuelo': vuelo.code,
+        'destino': vuelo.destiny,
+        'fecha y hora': f"{vuelo.date} {vuelo.time}",
+        'puerta': vuelo.gate,
+        'estado': vuelo.estatus,
+        'estado_code': vuelo.estautus_code,
+        'foto': vuelo.photo,
+    })
+
+with open("flights_data.txt", "w") as file:
+    json.dump(jsonText, file)
+# shutil.move("flights_data.txt",)
+
+# sleep(900)
