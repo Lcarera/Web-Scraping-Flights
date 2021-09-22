@@ -1,8 +1,8 @@
 import os
-os.system("sudo apt install pip3")
-os.system("pip3 install requests")
-os.system("pip3 install bs4")
-os.system("pip3 install datetime")
+# os.system("sudo apt install pip3")
+# os.system("pip3 install requests")
+# os.system("pip3 install bs4")
+# os.system("pip3 install datetime")
 #os.system("pip3 install shutil")
 import requests as req
 from bs4 import BeautifulSoup
@@ -92,16 +92,19 @@ while True:
             'aerolinea': vuelo.airline,
             'vuelo': vuelo.code,
             'destino': vuelo.destiny,
-            'hora': vuelo.time,
-            'fecha': vuelo.date,
+            'fecha y hora': (vuelo.date)(vuelo.time),
+            
             'puerta': vuelo.gate,
             'estado': vuelo.estatus,
             'estado_code': vuelo.estautus_code,
             'foto': vuelo.photo,
         })
+        print(jsonText)
 
 
     with open("flights_data.txt", "w") as file:
         json.dump(jsonText, file)
     #shutil.move("flights_data.txt",)
-    sleep(900)
+    
+    #sleep(900)
+    
