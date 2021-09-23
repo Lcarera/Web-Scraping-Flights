@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 import time
+import  ftplib
 
 
 today = str(datetime.today().strftime('%Y-%m-%d'))
@@ -103,4 +104,29 @@ with open("flights_data.txt", "w") as file:
     json.dump(jsonText, file)
 # shutil.move("flights_data.txt",)
 
-# sleep(900)
+time.sleep(900)
+
+
+# Datos FTP
+ftp_servidor = '192.168.255.253'
+ftp_usuario  = 'qt1'
+ftp_clave    = 'YpMePUXK'
+ftp_raiz     = '/Web/Hotel-Telecable/' # donde queremos subir el fichero
+
+# Datos del fichero a subir
+fichero_origen = 'flight_data.txt'
+fichero_destino = 'flight_data.txt' 
+
+# Conectamos con el servidor
+try:
+	s = ftplib.FTP(ftp_servidor, ftp_usuario, ftp_clave)
+	try:
+		f = open(fichero_origen, 'rb')
+		s.cwd(ftp_raiz)
+		s.storbinary('STOR ' + fichero_destino, f)
+		f.close()
+		s.quit()
+	except:
+		print( "No se ha podido encontrar el fichero " + fichero_origen)
+except:
+	print ("No se ha podido conectar al servidor " + ftp_servidor)
