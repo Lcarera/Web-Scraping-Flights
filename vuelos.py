@@ -95,7 +95,7 @@ while True:
             'foto': vuelo.photo,
         })
 
-
+    vuelos = []
     with open("flights_data.txt", "w") as file:
         json.dump(jsonText, file)
 
