@@ -74,31 +74,36 @@ def find_tags_from_class(html):
             # Saltea los primeros 5 elementos son lso titulos de la tabla
             x += 1
 while True:
-    # Obteniendo HTML
-    Web = req.get('https://sjoairport.com/flights-new/')
-    find_tags_from_class(Web.text)
+	try:
+   	 # Obteniendo HTML
+	    Web = req.get('https://sjoairport.com/flights-new/')
+	    find_tags_from_class(Web.text)
 
-    jsonText = {}
-    jsonText['vuelos'] = []
-    # Convierte todos los vuelos en formato json
-    for vuelo in vuelos:
-        jsonText['vuelos'].append({
+	    jsonText = {}
+	    jsonText['vuelos'] = []
+	    # Convierte todos los vuelos en formato json
+	    for vuelo in vuelos:
+	        jsonText['vuelos'].append({
 
-            'aerolinea': vuelo.airline,
-            'vuelo': vuelo.code,
-            'destino': vuelo.destiny,
-            'hora': vuelo.time,
-            'fecha': vuelo.date,
-            'puerta': vuelo.gate,
-            'estado': vuelo.estatus,
-            'estado_code': vuelo.estautus_code,
-            'foto': vuelo.photo,
-        })
+	            'aerolinea': vuelo.airline,
+	            'vuelo': vuelo.code,
+	            'destino': vuelo.destiny,
+	            'hora': vuelo.time,
+	            'fecha': vuelo.date,
+	            'puerta': vuelo.gate,
+	            'estado': vuelo.estatus,
+	            'estado_code': vuelo.estautus_code,
+	            'foto': vuelo.photo,
+	        })
 
-    vuelos = []
-    with open("flights_data.txt", "w") as file:
-        json.dump(jsonText, file)
+	    vuelos = []
+	    with open("flights_data.txt", "w") as file:
+	        json.dump(jsonText, file)
 
-    os.system('chmod a+x ./ftpupload.sh')
-    os.system('./ftpupload.sh')
-    time.sleep(900)
+	    os.system('chmod a+x ./ftpupload.sh')
+	    os.system('./ftpupload.sh')
+	    print(datetime)
+	except:
+	    continue
+	finally:
+            time.sleep(900)
