@@ -102,7 +102,7 @@ while True:
 
 	    os.system('chmod a+x ./ftpupload.sh')
 	    os.system('./ftpupload.sh')
-	    print(datetime)
+	    print(date,time)
 	except:
 	    continue
 	finally:
